@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { getLinks } from '@/lib/data';
 import { LinkCard } from '@/components/LinkCard';
 
+export const revalidate = 60;
+
 export default async function Home() {
   const links = await getLinks();
 
