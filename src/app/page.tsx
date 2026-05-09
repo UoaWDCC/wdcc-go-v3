@@ -21,8 +21,8 @@ export default function Home() {
 
         <div className="text-center flex flex-col max-w-md mx-auto my-4 font-display pb-28">
           <hr className="border-white border my-4" />
-          {links.map((link, idx) => (
-            <LinkCard key={idx} {...link} />
+          {links.map((link) => (
+            <LinkCard key={link.label} {...link} />
           ))}
         </div>
       </div>

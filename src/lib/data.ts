@@ -6,14 +6,6 @@ export interface Link {
   iconUrl?: string;
 }
 
-export interface LinksData {
-  links: Link[];
-  redirects: Record<string, string>;
-}
-
-const fi = (id: string) =>
-  `https://cdn-icons-png.flaticon.com/512/${id.slice(0, 4)}/${id}.png`;
-
 const links: Link[] = [
   // Event links
   {
@@ -66,39 +58,39 @@ const links: Link[] = [
     link: 'https://wdcc.co.nz',
     hoverHint: 'WDCC Website',
     bgColour: '#FFFFFF',
-    iconUrl: fi('3178162'),
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/3178/3178162.png',
   },
   {
     label: 'Facebook',
     link: 'https://www.facebook.com/wdcc.nz',
     hoverHint: 'WDCC Facebook',
     bgColour: '#FFFFFF',
-    iconUrl: fi('1384005'),
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/1384/1384005.png',
   },
   {
     label: 'Instagram',
     link: 'https://www.instagram.com/wdcc_auckland',
     hoverHint: 'WDCC Instagram',
     bgColour: '#FFFFFF',
-    iconUrl: fi('3670274'),
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/3670/3670274.png',
   },
   {
     label: 'LinkedIn',
     link: 'https://www.linkedin.com/company/wdcc-auckland',
     hoverHint: 'WDCC LinkedIn',
     bgColour: '#FFFFFF',
-    iconUrl: fi('3536569'),
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/3536/3536569.png',
   },
   {
     label: 'Tech Clubs Discord',
     link: 'https://discord.gg/techclubs',
     hoverHint: 'Tech Clubs Discord server',
     bgColour: '#FFFFFF',
-    iconUrl: fi('5968968'),
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/5968/5968968.png',
   },
 ];
 
-const redirects: Record<string, string> = {
+export const redirects: Record<string, string> = {
   ig: 'https://www.instagram.com/wdcc_auckland',
   fb: 'https://www.facebook.com/wdcc.nz',
   discord: 'https://discord.gg/techclubs',
@@ -113,6 +105,6 @@ const redirects: Record<string, string> = {
 };
 
 // Swap this function's implementation to fetch from an API (e.g. Payload CMS)
-export function getData(): LinksData {
+export function getData(): { links: Link[]; redirects: Record<string, string> } {
   return { links, redirects };
 }

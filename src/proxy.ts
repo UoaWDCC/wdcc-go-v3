@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getData } from '@/lib/data';
+import { redirects } from '@/lib/data';
 
 export function proxy(request: NextRequest) {
-  const { redirects } = getData();
   const key = request.nextUrl.pathname.slice(1); // strip leading /
 
   if (key === '') return NextResponse.next();
@@ -17,5 +16,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.png$|.*\\.svg$|.*\\.ico$).*)',],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.png$|.*\\.svg$|.*\\.ico$).*)'],
 };
