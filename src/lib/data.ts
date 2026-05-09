@@ -245,14 +245,17 @@ const dummyRedirects: GoRedirect[] = [
 // }
 
 export async function getLinks(): Promise<GoLink[]> {
-  await new Promise((r) => setTimeout(r, 2000)); // TODO: remove before launch
-  return dummyLinks
-    .filter((l) => !l.hidden)
-    .sort((a, b) =>
-      a.is_permanent !== b.is_permanent
-        ? Number(a.is_permanent) - Number(b.is_permanent)
-        : a.sort_order - b.sort_order
-    );
+  try {
+    return dummyLinks
+      .filter((l) => !l.hidden)
+      .sort((a, b) =>
+        a.is_permanent !== b.is_permanent
+          ? Number(a.is_permanent) - Number(b.is_permanent)
+          : a.sort_order - b.sort_order
+      );
+  } catch {
+    return [];
+  }
 }
 
 type RedirectsCache = { data: Record<string, string>; expiresAt: number };
@@ -264,12 +267,15 @@ export async function getRedirects(): Promise<Record<string, string>> {
     return redirectsCache.data;
   }
 
-  const data = Object.fromEntries(
-    dummyRedirects
-      .filter((r) => !r.hidden)
-      .map((r) => [r.key, r.destination_url])
-  );
-
-  redirectsCache = { data, expiresAt: Date.now() + REDIRECTS_TTL_MS };
-  return data;
+  try {
+    const data = Object.fromEntries(
+      dummyRedirects
+        .filter((r) => !r.hidden)
+        .map((r) => [r.key, r.destination_url])
+    );
+    redirectsCache = { data, expiresAt: Date.now() + REDIRECTS_TTL_MS };
+    return data;
+  } catch {
+    return {};
+  }
 }
