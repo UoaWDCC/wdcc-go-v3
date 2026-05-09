@@ -1,4 +1,7 @@
-import type { Link } from '@/lib/data';
+import type { GoLink } from '@/lib/data';
+
+const EVENT_COLOUR = '#ffd166';
+const PERMANENT_COLOUR = '#FFFFFF';
 
 function toLinear(c: number): number {
   const s = c / 255;
@@ -24,30 +27,31 @@ function isAbsoluteUrl(str: string): boolean {
   }
 }
 
-export function LinkCard({ label, link, hoverHint, bgColour, iconUrl }: Link) {
+export function LinkCard({ label, link, hover_hint, icon_url, is_permanent }: GoLink) {
+  const bgColour = is_permanent ? PERMANENT_COLOUR : EVENT_COLOUR;
   const fgColour = getContrastColour(bgColour);
-  const iconIsUrl = !!iconUrl && isAbsoluteUrl(iconUrl);
+  const iconIsUrl = !!icon_url && isAbsoluteUrl(icon_url);
 
   return (
     <a
       href={link}
       target="_blank"
       rel="noopener noreferrer"
-      title={hoverHint}
+      title={hover_hint ?? undefined}
       className="py-3 rounded-lg my-2 hover:brightness-90 transition duration-300 shadow-md relative block"
-      style={{ backgroundColor: bgColour, color: fgColour }}
+      style={{ backgroundColor: bgColour, color: fgColour, fontWeight: 440 }}
     >
       {iconIsUrl && (
         // External CDN icons are already optimised; next/image is not appropriate here
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={iconUrl}
+          src={icon_url}
           alt=""
           className="block h-6 absolute left-3 top-1/2 -translate-y-1/2 aspect-square object-contain"
         />
       )}
-      {iconUrl && !iconIsUrl && (
-        <span className="absolute left-3 top-1/2 -translate-y-1/2">{iconUrl}</span>
+      {icon_url && !iconIsUrl && (
+        <span className="absolute left-3 top-1/2 -translate-y-1/2">{icon_url}</span>
       )}
       {label}
     </a>

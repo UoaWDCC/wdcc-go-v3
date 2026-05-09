@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import { getData } from '@/lib/data';
+import { getLinks } from '@/lib/data';
 import { LinkCard } from '@/components/LinkCard';
 
-export default function Home() {
-  const { links } = getData();
+export default async function Home() {
+  const links = await getLinks();
 
   return (
     <main className="min-h-screen py-24 px-4 flex justify-center items-center bg-gradient-to-b from-wdcc-blue-100 to-wdcc-blue-200">
@@ -22,7 +22,7 @@ export default function Home() {
         <div className="text-center flex flex-col max-w-md mx-auto my-4 font-display pb-28">
           <hr className="border-white border my-4" />
           {links.map((link) => (
-            <LinkCard key={link.label} {...link} />
+            <LinkCard key={link.id} {...link} />
           ))}
         </div>
       </div>
