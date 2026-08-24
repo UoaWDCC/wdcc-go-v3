@@ -1,4 +1,5 @@
 import { neon } from '@neondatabase/serverless';
+import { cacheTag, cacheLife } from 'next/cache';
 
 const sql = neon(process.env.DATABASE_URL!);
 
@@ -26,7 +27,14 @@ export interface GoRedirect {
   updated_at: Date;
 }
 
+export const LINKS_CACHE_TAG = 'go-links';
+
 export async function getLinks(): Promise<GoLink[]> {
+  'use cache';
+  cacheTag(LINKS_CACHE_TAG);
+  cacheLife('minutes'); // /api/revalidate busts this instantly; the timer is only a
+  // backstop for when the dashboard webhook does not fire
+
   try {
     const rows = await sql`
       SELECT id, label, link, hover_hint, icon_url, is_permanent, sort_order, team
