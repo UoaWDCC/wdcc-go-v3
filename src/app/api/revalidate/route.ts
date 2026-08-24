@@ -1,4 +1,4 @@
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { LINKS_CACHE_TAG } from '@/lib/data';
 
 // Called by the dashboard after a go_link write, so the homepage picks up the
@@ -18,5 +18,10 @@ export async function POST(request: Request) {
   // expire: 0 — next visit blocks for fresh data rather than serving stale once
   revalidateTag(LINKS_CACHE_TAG, { expire: 0 });
 
-  return Response.json({ revalidated: true, tag: LINKS_CACHE_TAG });
+  // The tag alone expires the 'use cache' entry but leaves the prerendered
+  // HTML for / sitting in the CDN until its cacheLife timer runs out, so the
+  // page keeps serving stale. Purge the route entry too.
+  revalidatePath('/');
+
+  return Response.json({ revalidated: true, tag: LINKS_CACHE_TAG, path: '/' });
 }
