@@ -38,7 +38,7 @@ export function LinkCard({ label, link, hover_hint, icon_url, is_permanent }: Go
       target="_blank"
       rel="noopener noreferrer"
       title={hover_hint ?? undefined}
-      className="py-3 rounded-lg my-2 hover:brightness-90 transition duration-300 shadow-md relative block"
+      className="py-3 px-12 rounded-lg my-2 hover:brightness-90 transition duration-300 shadow-md relative block break-words"
       style={{ backgroundColor: bgColour, color: fgColour, fontWeight: 440 }}
     >
       {iconIsUrl && (
